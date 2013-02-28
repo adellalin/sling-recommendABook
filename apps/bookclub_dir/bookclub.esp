@@ -1,0 +1,62 @@
+<html>
+<head>
+  <script src="/system/sling.js"></script>
+  <script type="text/javascript" src="/apps/bookclub/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="/apps/bookclub/instantvalidation_pack.js"></script>
+  <link rel="stylesheet" href="/apps/bookclub/instantvalidation.css" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("form").instantValidation({fadeSpeed: 10});
+	});
+</script>
+</head>
+  <body>
+    <h1>Conde Tech Book Club</h1>
+	<h2>Recommended Books :</h2>
+	<table>
+
+	    <script>
+	      var posts = Sling.getContent("/content/bookclub", 2);
+	      for(var i in posts) {
+
+	        if ( posts[i].text && posts[i].recommendedBy && posts[i].title )	{
+			document.write("<tr>");
+			document.write("<td>"+ "<a href='"+posts[i].text    +" '>"+ posts[i].title + "</a>"+ "</td>");
+			document.write("<td> Recommended By "+ posts[i].recommendedBy + "</a>"+ "</td>");
+			document.write("<td>"
+	          + "<em><a href='/content/bookclub/" + i + ".html'> [Edit]"    
+	          + "</a></em></td>");
+			document.write("</tr>")
+			}
+	      }
+	    </script>
+	</table>
+
+<br/><br/><br/>
+
+    <div id="wrapper">
+	<h3><a href="/content/bookclub/*.html">Recommend A Book</a></h3>
+      <form method="POST" name="form" id="form4" class="right">
+		<label>Book Title (required):</label><br/>
+        <input type="text" name="title" title="Really, we need the name of the book." class="requiredText showRight" style="width:50%"/>
+
+
+		<br/><label for="recommendedBy">Recommended By (required):</label><br/>
+		<input type="text" name="recommendedBy" id="recommendedBy" title="who are you?" class="requiredText showRight" />
+        
+		<br/><label for="text">Link To Book (required):</label><br/>
+        <textarea style="width:50%" name="text" title="Link to the book is required and must start with http://" class="requiredText showRight" id="text"></textarea>
+
+        
+        <br/>
+        <input type="submit" value="save"/>
+        <input type="hidden" name=":redirect" value="*.html"/>
+      </form>
+    </div>
+
+
+
+	<script>Sling.wizard();</script>
+
+  </body>
+</html>
